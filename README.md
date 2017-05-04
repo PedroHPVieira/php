@@ -1,3 +1,3 @@
 # php
-Stocks project
+Stocks project.
 Project using rest api with PHP.
