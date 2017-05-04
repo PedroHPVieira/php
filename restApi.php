@@ -12,7 +12,7 @@
 	define('DB_HOST', 'localhost');
 
 	$connection = connect();
-	
+
 	$method = $_SERVER['REQUEST_METHOD'];
 
 	if ($connection != null) {
@@ -79,6 +79,16 @@
 			echo deliverResponse(200, $message, $stocks);
 		}
 
+		elseif (!empty($_GET['ProfileStockId']) and !empty($_GET['UserId'])) {
+			$userId = $_GET['UserId'];
+			$stockId = $_GET['ProfileStockId'];
+
+			$result = getCurrentValueOfStocksByUser($stockId, $userId, $connection);
+
+			$message = "Stock current price found with success";
+			echo deliverResponse(200, $message, $result);
+		}
+
 		else if ($method == 'PUT') {			
 			$post_vars = json_decode(file_get_contents("php://input"), true);
 			$newStock = new Stock();
@@ -90,7 +100,7 @@
 
 			$result = updateStock($newStock, $connection);
 			
-			$message = "Stock updated with sucess";
+			$message = "Stock updated with success";
 			echo deliverResponse(200, $message, $result);
 
 		}

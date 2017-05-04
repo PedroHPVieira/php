@@ -93,6 +93,27 @@
 		return $result;
 	}
 
+	//Function to get the current value of a specific stock from an user
+	function getCurrentValueOfStocksByUser($stockId, $userId, $connection){
+		$sqlQuery = "SELECT T.Quantity * S.Price AS 'Total'
+					FROM User U
+					INNER JOIN Transactions T ON T.Id_User = U.Id
+					INNER JOIN Stock S ON S.Id = T.Id_Stock
+					WHERE U.Id = $userId
+					AND S.Id = $stockId";
+
+		try {
+			$result = $connection->query($sqlQuery);
+			return $result->fetch_assoc();
+
+		} catch (Exception $e) {
+			echo $e->getMessage();		
+		}
+
+		echo $result;
+		return $result;
+	}
+
 	//Function responsable to update a stock
 	function updateStock($stock, $connection){
 		$sqlQuery = "UPDATE Stock SET 
